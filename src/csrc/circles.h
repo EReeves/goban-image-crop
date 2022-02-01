@@ -1,0 +1,1 @@
+int get_circles_from_img(char* path);
