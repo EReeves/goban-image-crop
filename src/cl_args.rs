@@ -10,7 +10,7 @@ pub struct Args {
 
     //Padding in pixels around where stones are detected
     #[clap(short, long, default_value = "10")]
-    pub padding: u32,
+    pub padding: i32,
 
     //Comma delimited string of file extensions. For supported extensions see https://crates.io/crates/image.
     #[clap(short, long, default_value = "png,jpg,bmp")]

@@ -1,10 +1,9 @@
-extern crate test;
-
 use std::ffi::CString;
 use std::mem::MaybeUninit;
 use std::os::raw::c_char;
 
-use test::Bencher;
+///Each triplet [0, 1, 2, ...] represents [x, y, radius]
+pub type Circles = Vec<i32>;
 
 extern "C" {
     fn get_circles_from_img(
@@ -16,7 +15,7 @@ extern "C" {
 }
 
 ///Returns vector of triplet chunks representing the x, y, and radius of circles found from image at path str.
-pub fn get_circles(str: &str) -> Vec<i32> {
+pub fn from_img_path(str: &str) -> Circles {
     let cstr = CString::new(str).expect("Null termination exists in filename.");
 
     //Use a buffer to save worrying about deallocation.
@@ -40,9 +39,45 @@ pub fn get_circles(str: &str) -> Vec<i32> {
     circles
 }
 
-#[bench]
-fn bench_one_image(b: &mut Bencher) {
-    b.iter(|| {
-        get_circles("./media/go.png");
-    });
+pub struct Border {
+    pub x: i32,
+    pub y: i32,
+    pub w: i32,
+    pub h: i32,
+}
+
+/// Returns the border rect of the circles.
+pub fn find_border(circles: Circles) -> Border {
+    let mut border = Border {x: i32::MAX, y: i32::MAX, w: 0, h: 0};
+
+    //For calculating avg radius.
+    let mut radius_add = 0;
+
+    for triplet in circles.chunks(3) {
+        let (cx, cy) = (triplet[0], triplet[1]);
+
+        if cx > border.w {
+            border.w = cx
+        } else if cx < border.x {
+            border.x = cx
+        };
+
+        if cy > border.h {
+            border.h = cy
+        } else if cy < border.y {
+            border.y = cy
+        };
+
+        radius_add += triplet[2]
+    }
+
+    //Average radius
+    let avg = radius_add / (circles.len() as i32 / 3);
+
+    border.w += avg;
+    border.h += avg;
+    border.x -= avg;
+    border.y -= avg;
+
+    border
 }
