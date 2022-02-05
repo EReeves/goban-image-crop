@@ -6,6 +6,6 @@ Uses OpenCV to detect the stones, and from there it decides where to crop.
 Heavy WIP TODO
 - ~~Find files~~
 - ~~Find stones~~
-- Make it crop
+- ~~Make it crop~~
 - Improve accuracy against some other dimension, maybe line detection
 - Usability/releases
