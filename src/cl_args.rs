@@ -17,6 +17,5 @@ pub struct Args {
     pub extensions: String,
     
     //Folder of images
-    #[clap(short, long, default_value = ".")] //remove after
     pub directory: String,
 }
