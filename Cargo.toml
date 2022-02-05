@@ -3,6 +3,7 @@ name = "goban-image-crop"
 version = "0.1.0"
 edition = "2021"
 
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -11,6 +12,7 @@ clap = { version = "3.0.13", features = ["derive"] } #Easy cl args
 glob = "0.3.0" 
 libc = "0.2.116" 
 ffi-support = "0.4.4"
+num = "0.2.1"
 
 
 [build-dependencies]
